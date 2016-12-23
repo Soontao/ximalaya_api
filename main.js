@@ -1,6 +1,6 @@
 "use strict"
 var http = require('http');
-
+var perPageItemNum = 20;
 
 /**
  * 请求页面内容
@@ -23,20 +23,40 @@ var requestPageContent = (keyword, type, cb) => {
 
 /**
  * 获取搜索页面总数
- * 根据页面总数可以获取相应URL
  * 
  * @param {string} keyword
  * @param {string} type
- * @param {function} cb
+ * @param {function(Number)} cb
  */
 var getSearchPageNum = (keyword, type, cb) => {
   if (!keyword) throw new Error("param err");
   type = type || "t2";
-  requestPageContent(keyword, type, (page) => {
-
+  getSearchRecordNum(keyword, type, (num) => {
+    cb(Math.ceil(num / perPageItemNum));
   })
 }
 
-requestPageContent('卓老板', 't2', (body) => {
-  console.log(body)
-})
+
+
+/**
+ * 获取记录总数
+ * 
+ * @param {string} keyword
+ * @param {string} type
+ * @param {any} cb
+ */
+var getSearchRecordNum = (keyword, type, cb) => {
+  if (!keyword) throw new Error("param err");
+  type = type || "t2";
+  var numReg = /<div class="searchCount">共找到(\d+)个有关<em>/;
+  requestPageContent(keyword, type, (page) => {
+    cb(page.match(numReg)[1]);
+  })
+}
+
+
+module.exports = {
+  getSearchPageNum,
+  getSearchRecordNum,
+  requestPageContent
+}
