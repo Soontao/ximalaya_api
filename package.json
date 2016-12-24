@@ -2,12 +2,13 @@
   "name": "ximalaya_api",
   "version": "1.0.0",
   "description": "api for ximalaya",
-  "main": "main.js",
+  "main": "bin/main.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "compile": "babel src --out-dir bin"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,14 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "lru-func": "0.0.1"
+    "lru-func": "0.0.1",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2017": "^6.16.0",
+    "babel-register": "^6.18.0"
   }
 }
