@@ -1,6 +1,7 @@
 "use strict"
 var http = require('http');
 var perPageItemNum = 20;
+var domain = "http://www.ximalaya.com";
 
 /**
  * 请求页面内容
@@ -12,7 +13,7 @@ var perPageItemNum = 20;
 var requestPageContent = (keyword, type, cb) => {
   if (!keyword) throw new Error("param err");
   type = type || "t2";
-  http.get(encodeURI(`http://www.ximalaya.com/search/${keyword}/${type}`), (res) => {
+  http.get(encodeURI(`${domain}/search/${keyword}/${type}`), (res) => {
     var body = '';
     res.on('data', chunk => body += chunk);
     res.on('end', () => cb(body));
@@ -43,14 +44,14 @@ var getSearchPageNum = (keyword, type, cb) => {
  * 
  * @param {string} keyword
  * @param {string} type
- * @param {any} cb
+ * @param {function(number)} cb
  */
 var getSearchRecordNum = (keyword, type, cb) => {
   if (!keyword) throw new Error("param err");
   type = type || "t2";
   var numReg = /<div class="searchCount">共找到(\d+)个有关<em>/;
   requestPageContent(keyword, type, (page) => {
-    cb(page.match(numReg)[1]);
+    cb(Number.parseInt(page.match(numReg)[1]));
   })
 }
 
