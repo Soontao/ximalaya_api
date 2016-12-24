@@ -1,0 +1,26 @@
+{
+  "name": "ximalaya_api",
+  "version": "1.0.0",
+  "description": "api for ximalaya",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.suntao.science:suntao/ximalaya.git"
+  },
+  "keywords": [
+    "ximalaya",
+    "api"
+  ],
+  "author": "suntao",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "lru-func": "0.0.1"
+  }
+}
