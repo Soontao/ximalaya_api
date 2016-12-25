@@ -2,13 +2,13 @@
   "name": "ximalaya_api",
   "version": "1.0.0",
   "description": "api for ximalaya",
-  "main": "bin/main.js",
+  "main": "bin",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "mocha",
-    "compile": "babel src --out-dir bin"
+    "compile": "babel src --out-dir bin -s inline"
   },
   "repository": {
     "type": "git",
