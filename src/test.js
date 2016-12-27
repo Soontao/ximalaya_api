@@ -1,4 +1,4 @@
-var ximalaya = require('./main');
+var ximalaya = require('.');
 
 (async() => {
   var body = await ximalaya.requestPageContent('卓老板', 't2', undefined)

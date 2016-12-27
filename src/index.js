@@ -77,6 +77,19 @@ var getItemsInfoFromPage_T2 = (page) => {
 }
 
 /**
+ * [T3]类型，获取一个页面中所有的Item信息
+ * 
+ * @param {string} page
+ * @returns {List} result
+ */
+var getItemsInfoFromPage_T3 = page => {
+  var result = [];
+
+
+  return result;
+}
+
+/**
  * 获取所有页面的信息
  * 
  * @param {any} keyword
