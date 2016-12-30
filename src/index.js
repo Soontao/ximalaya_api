@@ -1,4 +1,5 @@
 "use strict"
+
 var cheerio = require('cheerio');
 var request = require('request-promise');
 var _ = require('lodash');
@@ -33,14 +34,8 @@ class ApiRequest {
       case "t2":
         this.perPageItemNum = 20;
         break;
-      case "t3":
-        this.perPageItemNum = 20;
-        break;
-      case "t4":
-        this.perPageItemNum = 20;
-        break;
       default:
-        thie.searchType = "t2";
+        this.searchType = "t2";
         this.perPageItemNum = 20;
         break;
     }
@@ -118,12 +113,11 @@ class ApiRequest {
   async getItemsInfo_All() {
     var pageNum = await this.getSearchPageNum();
     var getItemsFromPage;
-    switch (this.type) {
+    switch (this.searchType) {
       case "t2":
         getItemsFromPage = this.getItemsInfoFromPage_T2
         break;
       default:
-        getItemsFromPage = this.getItemsInfoFromPage_T2
         break;
     }
     var pagePromises = _.range(1, pageNum + 1).map(pageIdx => this.requestPageContent(pageIdx));

@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "babel-istanbul cover node_modules/mocha/bin/_mocha",
     "compile": "babel src --out-dir bin -s inline"
   },
   "repository": {
@@ -21,8 +21,10 @@
   "author": "suntao",
   "license": "MIT",
   "dependencies": {
+    "babel-istanbul": "^0.12.1",
     "cheerio": "^0.22.0",
     "lodash": "^4.17.3",
+    "mocha": "^3.2.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1"
   },
