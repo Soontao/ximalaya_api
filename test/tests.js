@@ -10,6 +10,18 @@ describe('Unit Test', function() {
   this.timeout(0)
   this.slow(-1);
 
+  describe('Wrong Constructor Param Test', () => {
+    it('should throw an error', (done) => {
+      try {
+        ximalaya.search();
+        assert.fail();
+      } catch (error) {
+        assert.ok(error instanceof Error);
+        done();
+      }
+    });
+  });
+
   describe('#requestPageContent', function() {
     it('should be string', function(done) {
       ximalaya.search(testKeyword, testType).requestPageContent()
@@ -41,7 +53,7 @@ describe('Unit Test', function() {
   })
 
   describe('#getSearchRecordNum', () => {
-    it('shoud be a number', done => {
+    it('should be a number', done => {
       ximalaya.search(testKeyword, testType).getSearchRecordNum()
         .then(v => {
           assert.equal(typeof v, "number");
@@ -55,8 +67,23 @@ describe('Unit Test', function() {
     })
   })
 
-  describe('#ClassGetAll', () => {
-    it('should sucess', (done) => {
+  describe('#getItemsInfo_All', () => {
+    it('should get object list', (done) => {
+      ximalaya.search(testKeyword, testType)
+        .getItemsInfo_All()
+        .then(olist => {
+          assert.ok(olist.length > 0);
+          done();
+        })
+        .catch(err => {
+          assert.ifError(err);
+          done();
+        })
+    });
+  });
+
+  describe('#getItemsInfo_All testCache', () => {
+    it('should quicker than before', (done) => {
       ximalaya.search(testKeyword, testType)
         .getItemsInfo_All()
         .then(olist => {

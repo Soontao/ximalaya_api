@@ -1,13 +1,10 @@
 "use strict"
-var http = require('http');
 var cheerio = require('cheerio');
-var cacheIt = require('lru-func');
 var request = require('request-promise');
 var _ = require('lodash');
-var perPageItemNum = 20;
-var domain = "http://www.ximalaya.com";
 
-// 考虑根据类型创建相应类的实例
+// 需要一个定时过期的缓存
+
 
 /**
  * API请求
@@ -28,9 +25,11 @@ class ApiRequest {
     if (keyword)
       this.keyword = keyword;
     else
-      throw new Error("param error, keyword cannot be empty or undefined");
+      throw new Error("param error, keyword can't be empty or undefined");
+    this.domain = "http://www.ximalaya.com";
     this.searchType = searchType;
-    switch (searchType) {
+
+    switch (this.searchType) {
       case "t2":
         this.perPageItemNum = 20;
         break;
@@ -45,7 +44,6 @@ class ApiRequest {
         this.perPageItemNum = 20;
         break;
     }
-    this.domain = "http://www.ximalaya.com";
 
   }
 
@@ -62,11 +60,25 @@ class ApiRequest {
     return content;
   }
 
+  /**
+   * 获取搜索包含的页面数
+   * 
+   * @returns
+   * 
+   * @memberOf ApiRequest
+   */
   async getSearchPageNum() {
-    var num = await this.getSearchRecordNum(this.keyword, this.searchType);
+    var num = await this.getSearchRecordNum();
     return Math.ceil(num / this.perPageItemNum);
   }
 
+  /**
+   * 获取搜索包含的记录数
+   * 
+   * @returns
+   * 
+   * @memberOf ApiRequest
+   */
   async getSearchRecordNum() {
     var page = await this.requestPageContent();
     var $ = cheerio.load(page);
@@ -105,7 +117,6 @@ class ApiRequest {
    */
   async getItemsInfo_All() {
     var pageNum = await this.getSearchPageNum();
-    var result = [];
     var getItemsFromPage;
     switch (this.type) {
       case "t2":
@@ -124,8 +135,13 @@ class ApiRequest {
 }
 
 
-module.exports = {
-  "search": (keyword, type) => {
-    return new ApiRequest(keyword, type);
-  }
+/**
+ * 搜索关键词
+ * 
+ * @param {string} keyword
+ * @param {string} type
+ * @returns
+ */
+module.exports.search = (keyword, type) => {
+  return new ApiRequest(keyword, type);
 }
