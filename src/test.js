@@ -6,5 +6,5 @@ var ximalaya = require('.');
 
   // console.log(await ximalaya.getItemsInfo_All('卓老板','t2'))
 
-  console.log(await ximalaya.search('卓老板', 't2').getItemsInfo_All())
+  console.log(await ximalaya.search('卓老板', 't3').getItemsInfo_All())
 })();

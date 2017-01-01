@@ -28,17 +28,8 @@ class ApiRequest {
     else
       throw new Error("param error, keyword can't be empty or undefined");
     this.domain = "http://www.ximalaya.com";
-    this.searchType = searchType;
-
-    switch (this.searchType) {
-      case "t2":
-        this.perPageItemNum = 20;
-        break;
-      default:
-        this.searchType = "t2";
-        this.perPageItemNum = 20;
-        break;
-    }
+    this.searchType = searchType || 't2';
+    this.perPageItemNum = 20;
 
   }
 
@@ -75,6 +66,7 @@ class ApiRequest {
    * @memberOf ApiRequest
    */
   async getSearchRecordNum() {
+    // 当搜索记录大于1000时，显示为1000+，这里需要fix
     var page = await this.requestPageContent();
     var $ = cheerio.load(page);
     var num = $('#searchUserPage > div.mainbox_left > div.report > div.searchHint > div.searchCount').text().replace(/[^0-9]/ig, '');
@@ -104,6 +96,28 @@ class ApiRequest {
   }
 
   /**
+   * 从一个T3类型的页面中获取信息
+   * 
+   * 
+   * @param {string} content 页面内容
+   * 
+   * @memberOf ApiRequest
+   */
+  getItemsInfoFromPage_T3(content) {
+    var $ = cheerio.load(content);
+    var result = $('.body_list > li.item').toArray().map(item => {
+      return {
+        link: $('.picture a', item).attr('href'),
+        img: $('.picture a span img', item).attr('src'),
+        title: $('.title a', item).text(),
+        publisherName: $('.last a', item).text().trim(),
+        publisherID: $('.last a', item).attr('card')
+      }
+    })
+    return result;
+  }
+
+  /**
    * 获取所有页面的信息
    * 
    * @returns
@@ -112,18 +126,13 @@ class ApiRequest {
    */
   async getItemsInfo_All() {
     var pageNum = await this.getSearchPageNum();
-    var getItemsFromPage;
-    switch (this.searchType) {
-      case "t2":
-        getItemsFromPage = this.getItemsInfoFromPage_T2
-        break;
-      default:
-        break;
+    var getItemsFromPage = this[`getItemsInfoFromPage_${this.searchType.toUpperCase()}`]
+    if (getItemsFromPage) {
+      var pagePromises = _.range(1, pageNum + 1).map(pageIdx => this.requestPageContent(pageIdx));
+      var pages = await Promise.all(pagePromises);
+      var result = pages.map(aPage => getItemsFromPage(aPage)).reduce((pre, cur) => pre.concat(cur), []);
+      return result;
     }
-    var pagePromises = _.range(1, pageNum + 1).map(pageIdx => this.requestPageContent(pageIdx));
-    var pages = await Promise.all(pagePromises);
-    var result = pages.map(aPage => getItemsFromPage(aPage)).reduce((pre, cur) => pre.concat(cur), []);
-    return result;
   }
 
 }
