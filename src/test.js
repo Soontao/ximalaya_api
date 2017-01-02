@@ -5,6 +5,10 @@ var ximalaya = require('.');
   // console.log(ximalaya.getItemsInfoFromPage_T2(body))
 
   // console.log(await ximalaya.getItemsInfo_All('卓老板','t2'))
+  try {
+    console.log(await ximalaya.search('卓老板', 't4').getItemsInfo_All())
 
-  console.log(await ximalaya.search('卓老板', 't3').getItemsInfo_All())
+  } catch (error) {
+    console.log(error)
+  }
 })();

@@ -16,7 +16,13 @@ var api = require('ximalaya');
 
 ```bash
 npm i -g ximalaya
-
+ximalaya server
 ```
 
+## Test
 
+单元测试
+
+```
+npm run test
+```

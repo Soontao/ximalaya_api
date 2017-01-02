@@ -8,13 +8,51 @@ describe('Ximalaya API', function() {
   this.timeout(0)
   this.slow(-1);
 
+  describe('Different Type Page Parse', () => {
+
+    describe('#type 2', () => {
+      it('should be a obj list', (done) => {
+        var api = ximalaya.search(testKeyword, 't2');
+        api.requestPageContent()
+          .then(page => {
+            assert.equal(typeof page, "string", "result should be a string");
+            var result = api.getItemsInfoFromPage_T2(page)
+            assert.ok(result && result.length > 0);
+            done();
+          })
+          .catch(err => {
+            assert.ifError(err);
+            done();
+          })
+      });
+    });
+
+    describe('#type 3', () => {
+      it('should be a obj list', (done) => {
+        var api = ximalaya.search(testKeyword, 't3');
+        api.requestPageContent()
+          .then(page => {
+            assert.equal(typeof page, "string", "page should be a string");
+            var result = api.getItemsInfoFromPage_T3(page)
+            assert.ok(result && result.length > 0);
+            done();
+          })
+          .catch(err => {
+            assert.ifError(err);
+            done();
+          })
+      });
+    });
+
+  });
+
   describe('Unit Test', function() {
 
     describe('#requestPageContent', function() {
       it('should be string', function(done) {
         ximalaya.search(testKeyword, testType).requestPageContent()
           .then(v => {
-            assert.equal(typeof v, "string", "result shoule be a string");
+            assert.equal(typeof v, "string", "result should be a string");
             done();
           })
           .catch(err => {
@@ -108,7 +146,7 @@ describe('Ximalaya API', function() {
       it('should be string', function(done) {
         ximalaya.search(testKeyword).requestPageContent()
           .then(v => {
-            assert.equal(typeof v, "string", "result shoule be a string");
+            assert.equal(typeof v, "string", "result should be a string");
             done();
           })
           .catch(err => {

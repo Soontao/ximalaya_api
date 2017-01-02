@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "babel-istanbul cover node_modules/mocha/bin/_mocha",
+    "test": "babel-istanbul cover node_modules/mocha/bin/_mocha ",
     "compile": "babel src --out-dir bin -s inline"
   },
   "repository": {

@@ -132,6 +132,8 @@ class ApiRequest {
       var pages = await Promise.all(pagePromises);
       var result = pages.map(aPage => getItemsFromPage(aPage)).reduce((pre, cur) => pre.concat(cur), []);
       return result;
+    } else {
+      throw new Error(`Cannot parse page with type : ${this.searchType}`)
     }
   }
 
