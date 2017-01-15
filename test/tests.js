@@ -44,6 +44,25 @@ describe('Ximalaya API', function() {
       });
     });
 
+    describe('#type 4', function() {
+
+      it('should be a obj list', function(done) {
+        var api = ximalaya.search(testKeyword, 't4');
+        api.requestPageContent()
+          .then(page => {
+            assert.equal(typeof page, "string", "page should be a string");
+            var result = api.getItemsInfoFromPage_T4(page)
+            assert.ok(result && result.length > 0);
+            done();
+          })
+          .catch(err => {
+            assert.ifError(err);
+            done();
+          })
+      });
+    });
+
+
   });
 
   describe('Unit Test', function() {
@@ -62,6 +81,7 @@ describe('Ximalaya API', function() {
 
       });
     });
+
 
 
 

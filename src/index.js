@@ -42,7 +42,7 @@ class ApiRequest {
    * @memberOf ApiRequest
    */
   async requestPageContent(pageIdx) {
-    var content = await request(encodeURI(`${this.domain}/search/${this.keyword}/${this.searchType}s2p${pageIdx||1}`));
+    var content = await request(encodeURI(`${this.domain}/search/${this.keyword}/${this.searchType}p${pageIdx||1}`));
     return content;
   }
 
@@ -114,6 +114,28 @@ class ApiRequest {
         publisherID: $('.last a', item).attr('card')
       }
     })
+    return result;
+  }
+
+  /**
+   * 从一个T4类型的页面中获取信息
+   * 
+   * @param {string} content
+   * 
+   * @memberOf ApiRequest
+   */
+  getItemsInfoFromPage_T4(content) {
+    var $ = cheerio.load(content);
+    var result = $('.body_list > li.item').toArray().map(item => {
+      return {
+        publisher_id: $('.detail_top > a', item).attr('card'),
+        publisher_name: $('.detail_top > .username', item).text().trim(),
+        publisher_icon: $('.picture > a > img', item).attr('src'),
+        content: $('.detail_content', item).text().trim(),
+        sound_counter: $('.detail_bottom > .sound_counter', item).text().trim(),
+        follower_counter: $('.detail_bottom > .follower_counter', item).text().trim()
+      }
+    });
     return result;
   }
 
