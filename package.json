@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "babel-istanbul cover node_modules/mocha/bin/_mocha ",
+    "test": "babel-istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test2": "babel-istanbul cover node_modules/mocha/bin/_mocha ",
     "compile": "babel src --out-dir bin -s inline"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "babel-cli": "^6.18.0",
     "babel-polyfill": "^6.20.0",
     "babel-preset-es2017": "^6.16.0",
-    "babel-register": "^6.18.0"
+    "babel-register": "^6.18.0",
+    "coveralls": "^2.11.15"
   }
 }
