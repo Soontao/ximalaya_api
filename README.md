@@ -1,5 +1,7 @@
 # XIMALAYA API
 
+[![Build Status](https://travis-ci.org/Soontao/ximalaya_api.svg?branch=master)](https://travis-ci.org/Soontao/ximalaya_api)
+
 喜马拉雅的非官方API，没有任何版权，个人研究使用
 
 ---
